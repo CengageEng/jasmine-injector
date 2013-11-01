@@ -2,7 +2,7 @@
     "name": "jasmine-injector",
     "version": "0.0.1",
     "description": "Mock injector created to make mocking jasmine unit tests easy.",
-    "main": "src/jasmine-injector",
+    "main": "jasmine-injector",
     "dependencies": {
 
     },
