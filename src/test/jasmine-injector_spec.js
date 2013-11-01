@@ -39,5 +39,15 @@ define(['../jasmine-injector'], function() {
                 expect(injector).toThrow('jasmine-injector needs to have a resolver set for your AMD library.');
             });
         });
+
+        describe('mock', function() {
+            var injector = factory();
+
+            it('should expose a mock function that will return a new object with jasmine mocks for all of the properties of the original object', function() {
+                var result = injector.mock({test:function() {}});
+
+                expect(result.test.mostRecentCall).toBeDefined();
+            });
+        })
     });
 });
