@@ -48,6 +48,27 @@ define(['../jasmine-injector'], function() {
 
                 expect(result.test.mostRecentCall).toBeDefined();
             });
-        })
+        });
+
+        describe('inject', function() {
+            var injector = factory(),
+                moduleFactory;
+
+            beforeEach(function() {
+                moduleFactory = jasmine.createSpy();
+
+                injector.resolver = function(moduleId) {
+                    if(moduleId === 'moduleId') {
+                        return moduleFactory;
+                    }
+                };
+            });
+
+            it('provides a simple inject function that will call the factory with the first argument and then the function it provides with the remaining arguments', function() {
+                injector.inject('moduleId','a','b','c');
+
+                expect(moduleFactory).toHaveBeenCalledWith('a','b','c');
+            });
+        });
     });
 });
