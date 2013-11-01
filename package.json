@@ -1,0 +1,14 @@
+{
+    "name": "jasmine-injector",
+    "version": "0.0.1",
+    "description": "Mock injector created to make mocking jasmine unit tests easy.",
+    "main": "src/jasmine-injector",
+    "dependencies": {
+
+    },
+    "devDependencies": {
+        "amd-ish": "latest",
+        "grunt": "latest",
+        "grunt-jasmine-node": "latest"
+    }
+}
