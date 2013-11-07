@@ -1,22 +1,72 @@
-require('amd-ish');
-
-module.exports = function (grunt) {
+/*global module:false*/
+module.exports = function(grunt) {
+    'use strict';
     grunt.initConfig({
-        jasmine_node: {
-            specNameMatcher: "_spec", // load only specs containing specNameMatcher
-            projectRoot: ".",
-            requirejs: false,
-            forceExit: true,
-            jUnit: {
-                report: false,
-                savePath: "./build/reports/jasmine/",
-                useDotNotation: true,
-                consolidate: true
+        jsbeautifier: {
+            files: '<%= jshint.files %>',
+            options: {
+                'js': {
+                    'preserve_newlines': true,
+                    'max_preserve_newlines': 2
+                }
+            }
+        },
+        connect: {
+            jasmine: {
+                options: {
+                    port: 8890
+                }
+            }
+        },
+        open: {
+            injector: {
+                url: '<%= jasmine.options.host %><%= jasmine.injector.options.outfile %>'
+            },
+            requirejs: {
+                url: '<%= jasmine.options.host %><%= jasmine.requirejs.options.outfile %>'
+            }
+        },
+        jasmine: {
+            options: {
+                host: 'http://127.0.0.1:<%= connect.jasmine.options.port %>/',
+                template: require('grunt-template-jasmine-requirejs')
+            },
+            injector: {
+                options: {
+                    outfile: 'Injector_SpecRunner.html',
+                    specs: 'test/jasmine-injector-spec.js'
+                }
+            },
+            requirejs: {
+                options: {
+                    outfile: 'Requirejs_SpecRunner.html',
+                    specs: 'test/requirejs-resolver-spec.js',
+                    templateOptions: {
+                        requireConfig: {
+                            /* Need to load resolver soon so it can listen for requirejs.onResourceLoad */
+                            deps: ['resolvers/requirejs-resolver']
+                        }
+                    }
+                }
+            }
+        },
+        jshint: {
+            files: ['package.json', 'Gruntfile.js', '**/*.js', '!node_modules/**/*', '!test/lib/**/*'],
+            options: {
+                jshintrc: '.jshintrc'
             }
         }
     });
 
-    grunt.loadNpmTasks('grunt-jasmine-node');
+    /* These plugins provide necessary tasks. */
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-open');
+    grunt.loadNpmTasks('grunt-jsbeautifier');
+    grunt.loadNpmTasks('grunt-bower-task');
 
-    grunt.registerTask('default', 'jasmine_node');
-}
+    /* Register tasks. */
+    grunt.registerTask('default', ['jsbeautifier', 'jshint', 'connect', 'jasmine']);
+    grunt.registerTask('jasmine-server', ['jasmine::build', 'open', 'connect::keepalive']);
+};

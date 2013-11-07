@@ -1,24 +1,12 @@
-define(['../jasmine-injector'], function() {
+define(['jasmine-injector'], function(injector) {
     describe('jasmine-injector', function() {
-        var factory = define.amd.factory('../jasmine-injector');
-
-        it('should register itself via AMD', function() {
-            expect(factory).toBeDefined();
-        });
-
-        it('should return a function when the factory is invoked', function() {
-            expect(typeof factory()).toBe('function');
-        });
-
         describe('instance', function() {
-            var injector = factory();
-
             it('should be a function', function() {
-               expect(typeof injector).toBe('function');
+                expect(typeof injector).toBe('function');
             });
 
             it('should expose a resolver function', function() {
-               expect(typeof injector.resolver).toBe('function');
+                expect(typeof injector.resolver).toBe('function');
             });
 
             it('should call the resolver with arguments passed to injector', function() {
@@ -41,33 +29,34 @@ define(['../jasmine-injector'], function() {
         });
 
         describe('mock', function() {
-            var injector = factory();
-
             it('should expose a mock function that will return a new object with jasmine mocks for all of the properties of the original object', function() {
-                var result = injector.mock({test:function() {}});
+                var result = injector.mock({
+                    test: function() {},
+                    test1: function() {}
+                });
 
                 expect(result.test.mostRecentCall).toBeDefined();
+                expect(result.test1.mostRecentCall).toBeDefined();
             });
         });
 
         describe('inject', function() {
-            var injector = factory(),
-                moduleFactory;
+            var moduleFactory;
 
             beforeEach(function() {
                 moduleFactory = jasmine.createSpy();
 
                 injector.resolver = function(moduleId) {
-                    if(moduleId === 'moduleId') {
+                    if (moduleId === 'moduleId') {
                         return moduleFactory;
                     }
                 };
             });
 
             it('provides a simple inject function that will call the factory with the first argument and then the function it provides with the remaining arguments', function() {
-                injector.inject('moduleId','a','b','c');
+                injector.inject('moduleId', 'a', 'b', 'c');
 
-                expect(moduleFactory).toHaveBeenCalledWith('a','b','c');
+                expect(moduleFactory).toHaveBeenCalledWith('a', 'b', 'c');
             });
         });
     });

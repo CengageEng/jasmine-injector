@@ -1,0 +1,21 @@
+{
+    "name": "jasmine-injector",
+    "version": "v0.0.1-rc.1",
+    "homepage": "https://github.com/CengageEng/jasmine-injector",
+    "authors": [
+        "Cengage Developers"
+    ],
+    "license": "Apache",
+    "description": "Mocking AMD modules to test with jasmine",
+    "main": "jasmine-injector.js",
+    "keywords": [
+        "jasmine-mocks",
+        "jasmine-require-mocks",
+        "spying-amd-modules"
+    ],
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components"
+    ]
+}
