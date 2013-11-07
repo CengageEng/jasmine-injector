@@ -3,7 +3,9 @@
     "version": "0.0.1",
     "description": "Mock injector created to make mocking jasmine unit tests easy.",
     "main": "jasmine-injector.js",
-    "dependencies": {},
+    "scripts": {
+        "test": "grunt test -v"
+    },
     "devDependencies": {
         "grunt": "~0.4.1",
         "grunt-jsbeautifier": "0.2.2",
