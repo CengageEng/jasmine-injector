@@ -64,9 +64,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-jsbeautifier');
-    grunt.loadNpmTasks('grunt-bower-task');
 
     /* Register tasks. */
-    grunt.registerTask('default', ['jsbeautifier', 'jshint', 'connect', 'jasmine']);
+    grunt.registerTask('test', ['jshint', 'connect', 'jasmine']);
+    grunt.registerTask('default', ['jsbeautifier', 'test']);
     grunt.registerTask('jasmine-server', ['jasmine::build', 'open', 'connect::keepalive']);
 };
