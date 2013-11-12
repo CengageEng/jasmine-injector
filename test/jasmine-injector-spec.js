@@ -38,6 +38,20 @@ define(['jasmine-injector'], function(injector) {
                 expect(result.test.mostRecentCall).toBeDefined();
                 expect(result.test1.mostRecentCall).toBeDefined();
             });
+
+            it('should return a mock of constructor with prototype', function() {
+                function someFunction() {}
+                someFunction.prototype = {
+                    test: function() {},
+                    test1: function() {}
+                }
+
+                var result = injector.mock(someFunction);
+
+                expect(jasmine.isSpy(result)).toBeTruthy();
+                expect(jasmine.isSpy(result.prototype.test)).toBeTruthy();
+                expect(jasmine.isSpy(result.prototype.test1)).toBeTruthy();
+            });
         });
 
         describe('inject', function() {
