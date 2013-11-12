@@ -6,6 +6,14 @@ define(['jasmine-injector'], function(injector) {
     requirejs.onResourceLoad = function(context, map, depArray) {
         factoryList[map.id] = context.registry[map.id].factory;
         factoryDepList[map.id] = depArray;
+        if (depArray) {
+            depArray.forEach(function(dependency) {
+                var dependencyId = dependency.id;
+                if (!defined[dependencyId]) {
+                    defined[dependencyId] = context.defined[dependencyId];
+                }
+            });
+        }
         defined[map.id] = context.defined[map.id];
     };
 

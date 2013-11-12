@@ -44,7 +44,10 @@ module.exports = function(grunt) {
                     templateOptions: {
                         requireConfig: {
                             /* Need to load resolver soon so it can listen for requirejs.onResourceLoad */
-                            deps: ['resolvers/requirejs-resolver']
+                            deps: ['jquery', 'resolvers/requirejs-resolver'],
+                            paths: {
+                                'jquery': 'test/lib/jquery/jquery'
+                            }
                         }
                     }
                 }
@@ -55,6 +58,17 @@ module.exports = function(grunt) {
             options: {
                 jshintrc: '.jshintrc'
             }
+        },
+        bower: {
+            install: {
+                options: {
+                    targetDir: 'test/lib',
+                    layout: 'byComponent',
+                    verbose: true,
+                    cleanTargetDir: true,
+                    cleanBowerDir: true
+                }
+            }
         }
     });
 
@@ -64,9 +78,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-jsbeautifier');
+    grunt.loadNpmTasks('grunt-bower-task');
 
     /* Register tasks. */
-    grunt.registerTask('test', ['jshint', 'connect', 'jasmine']);
+    grunt.registerTask('test', ['jshint', 'bower:install', 'connect', 'jasmine']);
     grunt.registerTask('default', ['jsbeautifier', 'test']);
-    grunt.registerTask('jasmine-server', ['jasmine::build', 'open', 'connect::keepalive']);
+    grunt.registerTask('jasmine-server', ['bower:install', 'jasmine::build', 'open', 'connect::keepalive']);
 };

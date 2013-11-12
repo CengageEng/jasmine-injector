@@ -44,7 +44,7 @@ define(['jasmine-injector'], function(injector) {
                 someFunction.prototype = {
                     test: function() {},
                     test1: function() {}
-                }
+                };
 
                 var result = injector.mock(someFunction);
 

@@ -1,6 +1,6 @@
 {
     "name": "jasmine-injector",
-    "version": "0.0.2",
+    "version": "0.0.3-rc.1",
     "homepage": "https://github.com/CengageEng/jasmine-injector",
     "authors": [
         "Cengage Developers"
@@ -17,5 +17,8 @@
         "**/.*",
         "node_modules",
         "bower_components"
-    ]
+    ],
+    "dependencies": {
+        "jquery": "2.0.3"
+    }
 }

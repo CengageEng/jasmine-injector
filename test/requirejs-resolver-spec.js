@@ -1,6 +1,7 @@
 define(['test/fixtures/mymodule',
     'test/fixtures/module_two_dependencies',
-    'resolvers/requirejs-resolver'
+    'resolvers/requirejs-resolver',
+    'test/fixtures/moduleWithjQuery'
 ], function(myModule, moduleWithTwo, injector) {
     describe('injector.inject', function() {
 
@@ -15,6 +16,14 @@ define(['test/fixtures/mymodule',
 
             expect(myModule).toBe('dependency');
             expect(myModuleWithMockedDependency).toBe('mocked dependency');
+        });
+
+        it('should create a module using a mocked dependency and one real dependency which is loaded before injector is loaded', function() {
+            /* If some dependencies of any module are loaded before requirejs-resolver.js is loaded
+             * then onResourceLoad is not triggered for them. For example loading jquery from requireconfig.deps attribute */
+            var myModuleWithMockedDependency = injector.inject('test/fixtures/moduleWithjQuery');
+
+            expect(myModuleWithMockedDependency).toBe(true);
         });
 
         it('should create a module using multiple mocked dependencies', function() {
