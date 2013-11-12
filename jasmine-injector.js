@@ -11,12 +11,8 @@ define(function() {
 
     injector.mock = function(obj) {
         if (typeof obj === 'function') {
-            var apis = [];
-            for (var api in obj.prototype) {
-                apis.push(api);
-            }
-            var spyFn = jasmine.createSpy();
-            spyFn.prototype = jasmine.createSpyObj(obj.name, apis);
+            var spyFn = jasmine.createSpy(obj.name);
+            spyFn.prototype = injector.mock(obj.prototype);
             return spyFn;
         }
         return jasmine.createSpyObj('spy', Object.keys(obj));
