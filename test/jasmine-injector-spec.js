@@ -39,8 +39,9 @@ define(['jasmine-injector'], function(injector) {
                 expect(result.test1.mostRecentCall).toBeDefined();
             });
 
-            it('should return a mock of constructor with prototype', function() {
+            it('should return a mock of constructor with prototype and constructor properties', function() {
                 function someFunction() {}
+                someFunction.prop1 = function() {};
                 someFunction.prototype = {
                     test: function() {},
                     test1: function() {}
@@ -49,6 +50,7 @@ define(['jasmine-injector'], function(injector) {
                 var result = injector.mock(someFunction);
 
                 expect(jasmine.isSpy(result)).toBeTruthy();
+                expect(jasmine.isSpy(result.prop1)).toBeTruthy();
                 expect(jasmine.isSpy(result.prototype.test)).toBeTruthy();
                 expect(jasmine.isSpy(result.prototype.test1)).toBeTruthy();
             });

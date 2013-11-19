@@ -1,6 +1,6 @@
 {
     "name": "jasmine-injector",
-    "version": "0.0.3-rc.2",
+    "version": "0.0.3-rc.3",
     "description": "Mock injector created to make mocking jasmine unit tests easy.",
     "main": "jasmine-injector.js",
     "scripts": {
