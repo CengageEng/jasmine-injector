@@ -11,20 +11,32 @@ define(function() {
 
     injector.mock = function(obj) {
         if (typeof obj === 'function') {
-            var spyFn = jasmine.createSpy(obj.name);
-            Object.keys(obj).forEach(function(key) {
-                spyFn[key] = jasmine.createSpy(obj, key);
-            });
-            spyFn.prototype = injector.mock(obj.prototype);
-            return spyFn;
+            return mockFunction(obj);
         }
-        return jasmine.createSpyObj('spy', Object.keys(obj));
+        return mockObject(obj);
     };
 
     /* This should return a factory for module */
     injector.resolver = function( /* moduleId */ ) {
         throw 'jasmine-injector needs to have a resolver set for your AMD library.';
     };
+
+    function mockFunction(obj) {
+        var spyFn = jasmine.createSpy(obj.name);
+        Object.keys(obj).forEach(function(key) {
+            spyFn[key] = jasmine.createSpy(obj, key);
+        });
+        spyFn.prototype = mockObject(obj.prototype);
+        return spyFn;
+    }
+
+    function mockObject(obj) {
+        var keys = Object.keys(obj);
+        if (keys.length) {
+            return jasmine.createSpyObj('spy', keys);
+        }
+        return obj;
+    }
 
     return injector;
 });
